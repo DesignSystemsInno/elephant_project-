@@ -18,6 +18,8 @@
 
 
 //HardwareSerial Serial2(2); // Pins 16 RX2 and 17 TX2 ERROR!! LIBRERÍAS ACTUALIZADAS
+#define RXD2 17
+#define TXD2 16
 
 String inputstring = "";                              //a string to hold incoming data from the PC
 String sensorstring = "";                             //a string to hold the data from the Atlas Scientific product
@@ -31,8 +33,8 @@ int port = 0;                                         //what port to open
 
 
 void setup() {
-  Serial.begin(115200);                                 //Set the hardware serial port to 9600
-  Serial2.begin(115200);                                //set baud rate for software serial port_3 to 9600
+  Serial.begin(115200);                               //Set the hardware serial port to 9600
+  Serial2.begin(115200, SERIAL_8N1, RXD2, TXD2);      //set baud rate for software serial port_3 to 9600
   inputstring.reserve(10);                            //set aside some bytes for receiving data from the PC
   sensorstring.reserve(30);                           //set aside some bytes for receiving data from Atlas Scientific product
 
