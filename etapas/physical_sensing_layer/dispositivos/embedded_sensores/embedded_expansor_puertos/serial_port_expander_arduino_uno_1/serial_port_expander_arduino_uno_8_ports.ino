@@ -103,5 +103,5 @@ void open_port() {                                  //this function controls wha
   digitalWrite(s1, bitRead(port, 0));               //Here we have two commands combined into one.
   digitalWrite(s2, bitRead(port, 1));               //The digitalWrite command sets a pin to 1/0 (high or low)
   digitalWrite(s3, bitRead(port, 2));               //The bitRead command tells us what the bit value is for a specific bit location of a number
-  delay(2);                                         //this is needed to make sure the channel switching event has completed
+  delay(2);                                          //this is needed to make sure the channel switching event has completed
 }
