@@ -4,8 +4,8 @@
 #include <PubSubClient.h>
 long randNumber;
 // Replace with your network credentials (STATION)
-const char* ssid = "TIGO-520B";
-const char* password = "4D9697506784";
+const char* ssid = "FJD302";
+const char* password = "hk102938";
 const char* mqtt_server = "143.244.204.187"; 
 const char* mqtt_user = "admin1";
 const char* mqtt_pass= "admin1";

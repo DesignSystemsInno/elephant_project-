@@ -19,8 +19,8 @@ unsigned long time_for_send_data_flag= 0;
 
 
 //Configuración de los pines en los que estara conectado el expander port
-#define rx 10                                         
-#define tx 19                                         
+#define rx 32                                        
+#define tx 33                                         
 SoftwareSerial myserial(rx, tx);  
 int s1 = 36;                                           
 int s2 = 39;                                           
@@ -124,8 +124,7 @@ void open_port(uint8_t _port) {
 
 //Hilo para leer los datos de los sensores
 void theread_for_read_data(){
-    if(time_for_read_data==100){
-        time_for_read_data_flag = time_for_read_data;
+  
         if (Serial.available() > 0) {                       
             inputstring = Serial.readStringUntil(13);         
             port = parse_input(inputstring);                  
@@ -152,13 +151,13 @@ void theread_for_read_data(){
             Serial.print(" ");
         }
         Serial.println();
-    }
+    
 }
 
 //Hilo para enviar los datos al servidor
 void theread_for_send_data(){
-    if(time_for_send_data==200){
-        time_for_send_data_flag = time_for_send_data;
+    
+   
         data_S_PH = Module[0].get_reading();
         data_S_EC = Module[1].get_reading();
         data_S_ORP = Module[2].get_reading();
@@ -185,11 +184,20 @@ void theread_for_send_data(){
         sprintf(msg,"%i",data_S_CO2);
         client.publish("S_CO2",msg);
 
-    }
+    
 }
 
 //Configuraciones principales
 void setup() {
+    xTaskCreatePinnedToCore(
+    loop2,
+    "Task_2",
+    1000,
+    NULL,
+    1,
+    &Task2,
+    0);
+
     Serial.begin(115200);
     myserial.begin(9600);                               
     inputstring.reserve(20); 
@@ -214,12 +222,19 @@ void setup() {
   }
 }
 
+void loop2(void *parameter){
+  for(;;){
+    theread_for_read_data();
+    Serial.println("\t\t\tEn núcleo -> " +  String(xPortGetCoreID()));
+    
+    
+  }
+  
+  
+}
+
 
 void loop() {
-    time_for_send_data = millis();
-    time_for_send_data = millis();
-    theread_for_read_data();
     theread_for_send_data();
     
 }
-
